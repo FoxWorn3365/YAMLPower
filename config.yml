@@ -1,0 +1,20 @@
+ea: 250
+margin: 25px
+plugin: 2.5v
+
+code:
+  - define a = ciao
+  - get:
+      url: https://fcosma.it
+      to: c
+  - dump c
+  -
+  - list:
+      action: create
+      to: a
+  - list:
+      action: add
+      list: a
+      data: PORCO DIOOO
+  -
+  - dump a
