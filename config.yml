@@ -3,18 +3,25 @@ margin: 25px
 plugin: 2.5v
 
 code:
-  - define a = ciao
-  - get:
-      url: https://fcosma.it
-      to: c
-  - dump c
-  -
-  - list:
-      action: create
-      to: a
-  - list:
-      action: add
-      list: a
-      data: PORCO DIOOO
-  -
-  - dump a
+    - use Visualize
+    - define a = ciao
+    - get:
+        url: https://fcosma.it
+        to: c
+    - dump c
+    -
+    - list:
+        action: create
+        to: a
+    - list:
+        action: add
+        list: a
+        data: PORCO DIOOO
+    -
+    - dump a
+    - list.create:
+            to: b
+    - dump b
+    - visualizator:
+            action: bruh
+            mach: mach

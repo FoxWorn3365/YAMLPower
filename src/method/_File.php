@@ -6,6 +6,8 @@ use FoxWorn3365\YAMLPower\Error;
 use FoxWorn3365\YAMLPower\Parser;
 use FoxWorn3365\YAMLPower\ArgChecker;
 
+use FoxWorn3365\YAMLPower\VarParser;
+
 final class _File {
     public static function execute(object $var, object $args, Error $error) : object {
         ArgChecker::check([
@@ -13,22 +15,22 @@ final class _File {
             'string file'
         ], $args, $error);
 
-        if ($args->action === 'read' || $args->action === 'get') {
+        if (VarParser::get($var, $args->action) === 'read' || VarParser::get($var, $args->action) === 'get') {
             if (ArgChecker::has('string to', $args)) {
-                $var->{$args->to} = @file_get_contents($args->file);
+                $var->{VarParser::get($var, $args->to)} = @file_get_contents(VarParser::get($var, $args->file));
             } else {
                 $error->throw('noRequredArgForSpecificTaskException', false);
             }
-        } elseif ($args->action === 'write' || $args->action === 'put') {
+        } elseif (VarParser::get($var, $args->action) === 'write' || VarParser::get($var, $args->action) === 'put') {
             if (ArgChecker::has('string content', $args)) {
-                file_put_contents($args->file, $args->content);
+                file_put_contents(VarParser::get($var, $args->file), VarParser::get($var, $args->content));
             } else {
                 $error->throw('noRequredArgForSpecificTaskException', false);
             }
-        } elseif ($args->action === 'delete' || $args->action === 'remove') {
-            @unlink($args->file);
-        } elseif ($args->action === 'exists') {
-            if (file_exists($args->file)) {
+        } elseif (VarParser::get($var, $args->action) === 'delete' || VarParser::get($var, $args->action) === 'remove') {
+            @unlink(VarParser::get($var, $args->file));
+        } elseif (VarParser::get($var, $args->action) === 'exists') {
+            if (file_exists(VarParser::get($var, $args->file))) {
                 if (ArgChecker::has('array do', $args)) {
                     $var = Parser::parseArray($var, $args->do, $error);
                 } else {
@@ -42,7 +44,7 @@ final class _File {
                 }
             }
         } elseif ($args->action === 'notExists') {
-            if (!file_exists($args->file)) {
+            if (!file_exists(VarParser::get($var, $args->file))) {
                 if (ArgChecker::has('array do', $args)) {
                     $var = Parser::parseArray($var, $args->do, $error);
                 } else {

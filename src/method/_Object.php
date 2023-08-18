@@ -6,31 +6,33 @@ use FoxWorn3365\YAMLPower\Error;
 use FoxWorn3365\YAMLPower\Parser;
 use FoxWorn3365\YAMLPower\ArgChecker;
 
+use FoxWorn3365\YAMLPower\VarParser;
+
 final class _Object {
     public static function execute(object $var, object $args, Error $error) : object {
         ArgChecker::check([
             'string action'
         ], $args, $error);
 
-        if ($args->action === 'make' || $args->action === 'create') {
+        if (VarParser::get($var, $args->action) === 'make' || VarParser::get($var, $args->action) === 'create') {
             if (ArgChecker::has('string to', $args)) {
                 $var->{$args->to} = new \stdClass;
             } else {
                 $error->throw('noRequredArgForSpecificTaskException', true);
             }
-        } elseif ($args->action === 'set') {
+        } elseif (VarParser::get($var, $args->action) === 'set') {
             if (ArgChecker::has('string object', $args) && ArgChecker::has('string key', $args) && ArgChecker::has('string value', $args)) {
-                $var->{$args->object}->{$args->key} = $var->{$args->value};
+                $var->{$args->object}->{VarParser::get($var, $args->key)} = VarParser::get($var, $args->value);
             } else {
                 $error->throw('noRequredArgForSpecificTaskException', true);
             }
-        } elseif ($args->action === 'get') {
+        } elseif (VarParser::get($var, $args->action) === 'get') {
             if (ArgChecker::has('string object', $args) && ArgChecker::has('string key', $args) && ArgChecker::has('string to', $args)) {
-                $var->{$args->to} = $var->{$args->object}->{$args->key};
+                $var->{$args->to} = $var->{$args->object}->{VarParser::get($var, $args->key)};
             } else {
                 $error->throw('noRequredArgForSpecificTaskException', true);
             }
-        } elseif ($args->action === 'count') {
+        } elseif (VarParser::get($var, $args->action) === 'count') {
             if (ArgChecker::has('string object', $args) && ArgChecker::has('string to', $args)) {
                 $count = 0;
                 foreach ($var->{$args->object} as $value) {

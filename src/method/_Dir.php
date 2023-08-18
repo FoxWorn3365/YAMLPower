@@ -6,6 +6,8 @@ use FoxWorn3365\YAMLPower\Error;
 use FoxWorn3365\YAMLPower\Parser;
 use FoxWorn3365\YAMLPower\ArgChecker;
 
+use FoxWorn3365\YAMLPower\VarParser;
+
 final class _Dir {
     public static function execute(object $var, object $args, Error $error) : object {
         ArgChecker::check([
@@ -13,24 +15,24 @@ final class _Dir {
             'string dir'
         ], $args, $error);
 
-        if ($args->action === 'create' || $args->action === 'make') {
+        if (VarParser::get($var, $args->action) === 'create' || VarParser::get($var, $args->action) === 'make') {
             if (ArgChecker::has('int permissions', $args)) {
-                $permissions = $args->permissions;
+                $permissions = VarParser::get($var, $args->permissions);
             } else {
                 $permissions = 0777;
             }
 
             if (ArgChecker::has('bool recursive', $args)) {
-                $recursive = $args->recursive;
+                $recursive = VarParser::get($var, $args->recursive);
             } else {
                 $recursive = false;
             }
 
-            @mkdir($args->dir, $permissions, $recursive);
-        } elseif ($args->action === 'remove' || $args->action === 'delete') {
-            self::rrmdir($args->dir);
-        } elseif ($args->action === 'exists') {
-            if (is_dir($args->file)) {
+            @mkdir(VarParser::get($var, $args->dir), $permissions, $recursive);
+        } elseif (VarParser::get($var, $args->action) === 'remove' || VarParser::get($var, $args->action) === 'delete') {
+            self::rrmdir(VarParser::get($var, $args->dir));
+        } elseif (VarParser::get($var, $args->action) === 'exists') {
+            if (is_dir(VarParser::get($var, $args->file))) {
                 if (ArgChecker::has('array do', $args)) {
                     $var = Parser::parseArray($var, $args->do, $error);
                 } else {

@@ -6,6 +6,8 @@ use FoxWorn3365\YAMLPower\Parser;
 use FoxWorn3365\YAMLPower\ArgChecker;
 use FoxWorn3365\YAMLPower\Error;
 
+use FoxWorn3365\YAMLPower\VarParser;
+
 final class _For {
     public static function execute(object $var, object $args, Error $error) : object {
         ArgChecker::check([
@@ -17,7 +19,7 @@ final class _For {
         ], $args, $error);
         
         if (ArgChecker::gettype($args->max) == 'string') {
-            $max = $var->{$args->max};
+            $max = $var->{VarParser::get($var, $args->max)};
         } else {
             $max = $args->max;
         }

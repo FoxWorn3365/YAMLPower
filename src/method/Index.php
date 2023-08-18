@@ -12,7 +12,8 @@ final class Index {
         'list',
         'object',
         'if',
-        'for'
+        'for',
+        'factory'
     ];
 
     public static function classList() : array {

@@ -5,17 +5,18 @@ namespace FoxWorn3365\YAMLPower\method;
 use FoxWorn3365\YAMLPower\Error;
 use FoxWorn3365\YAMLPower\Parser;
 use FoxWorn3365\YAMLPower\ArgChecker;
+use FoxWorn3365\YAMLPower\VarParser;
 
 final class _Post {
     public static function execute(object $var, object $args, Error $error) : object {
         ArgChecker::check([
             'string url',
             'string content',
-            'array header',
+            'array headers',
             'string to'
         ], $args, $error);
 
-        $content = $var->{$args->content};
+        $content = VarParser::get($var, $args->content);
 
         if (gettype($content) === 'array') {
             $content = http_build_query($content);
@@ -23,7 +24,7 @@ final class _Post {
 
         $response = file_get_contents($args->url, false, stream_context_create(['http' => [
             'ignore_errors' => true,
-            'header' => implode("\r\n", $args->header),
+            'header' => implode("\r\n", VarParser::get($var, $args->headers)),
             'method' => 'POST',
             'content' => $content
         ]]));

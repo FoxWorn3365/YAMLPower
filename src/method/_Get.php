@@ -6,6 +6,8 @@ use FoxWorn3365\YAMLPower\Error;
 use FoxWorn3365\YAMLPower\Parser;
 use FoxWorn3365\YAMLPower\ArgChecker;
 
+use FoxWorn3365\YAMLPower\VarParser;
+
 final class _Get {
     public static function execute(object $var, object $args, Error $error) : object {
         ArgChecker::check([
@@ -13,11 +15,11 @@ final class _Get {
             'string to'
         ], $args, $error);
 
-        $response = file_get_contents($args->url, false, stream_context_create(['http' => ['ignore_errors' => true]]));
-        $var->{$args->to} = $response;
+        $response = file_get_contents(VarParser::get($var, $args->url), false, stream_context_create(['http' => ['ignore_errors' => true]]));
+        $var->{VarParser::get($var, $args->to)} = $response;
 
         if (ArgChecker::has('string toResponseHeader', $args)) {
-            $var->{$args->toResponseHeader} = $http_response_header;
+            $var->{VarParser::get($var, $args->toResponseHeader)} = $http_response_header;
         }
 
         if (ArgChecker::has('array onError', $args)) {

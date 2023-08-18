@@ -12,6 +12,12 @@ class Error {
         'incredibleArgException',
         'noExceptionException',
         'undefinedRequestException',
+        'invalidClassException',
+        'tooMuchArgsForClassFactoryOrExecutionException',
+        'methodInClassNotFoundException',
+        'extensionFileNotFoundException',
+        'noExtensionFileInExtensionFolderException',
+        'noFunctionListAvailableOnExtensionException',
         'wrongCollectCallException',
         'wrongTypeException'
     ];

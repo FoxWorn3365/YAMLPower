@@ -9,7 +9,9 @@ final class Index {
         'print',
         'echo',
         'display',
-        'dump'
+        'dump',
+        'include',
+        'use'
     ];
 
     public static function classList() : array {
