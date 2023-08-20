@@ -11,7 +11,8 @@ final class Index {
         'display',
         'dump',
         'include',
-        'use'
+        'use',
+        'replace'
     ];
 
     public static function classList() : array {
